@@ -36,7 +36,7 @@ for len1 in range(0, len(band4), 300):
             ragh = []
             test1 = []
             test2 = []
-            for i in range(0, len):
+            for i in range(0, 300):
                 t1 = np.copy(img8[i]).astype('float64')
                 t2 = np.copy(img4[i]).astype('float64')
                 den = t1 + t2
