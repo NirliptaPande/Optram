@@ -1,28 +1,8 @@
 import csv
 import os
 import numpy as np
-import pandas as pd
+import matplotlib.image as mpimg
 import re
-import pdb
-from pygam import ExpectileGAM
-
-
-def expreg(X, y, svrarray, index):
-    ind = y.isin([np.nan, np.inf, -np.inf]).any(1)
-    X = X[~ind]
-    y = y[~ind]
-    svrarray = svrarray[~ind]
-    X = np.sort(X)
-    X.shape = (X.shape[0], 1)
-    #    gam50 = ExpectileGAM(expectile=0.5).gridsearch(X, y)
-    # and copy the smoothing to the other models
-    lam = 100
-    # print(lam)
-    gam99 = ExpectileGAM(expectile=0.99, lam=lam).fit(X, y)
-    gam005 = ExpectileGAM(expectile=0.005, lam=lam).fit(X, y)
-    pred99 = gam99.predict(X)
-    pred005 = gam005.predict(X)
-
 
 pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
 pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
