@@ -23,12 +23,12 @@ for len1 in range(0, temp_file.shape[0], 300):
             img4 = mpimg.imread('./data/' + file1)
             img8 = mpimg.imread('./data/' + file2)
             img12 = mpimg.imread('./data/' + file3)
-            if len1 + 300 > len(band4):
-                test_len1 = len(band4)
+            if len1 + 300 > temp_file.shape[0]:
+                test_len1 = temp_file.shape[0]
             else:
                 test_len1 = len1 + 300
-            if len2 + 300 > len(band4):
-                test_len2 = len(band4)
+            if len2 + 300 > temp_file.shape[1]:
+                test_len2 = temp_file.shape[1]
             else:
                 test_len2 = len2 + 300
             n1 = range(len1, test_len1)
