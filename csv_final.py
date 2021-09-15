@@ -46,7 +46,6 @@ for len1 in range(0, temp_file.shape[0], 300):
             ragh = []
             test2 = []
             for i in range(0, 300):
-                pdb.set_trace()
                 t1 = np.copy(img8[i]).astype('float64')
                 t2 = np.copy(img4[i]).astype('float64')
                 den = t1 + t2
