@@ -35,9 +35,10 @@ for i in range(35):
 for len1 in in range(0, row, 300):
     for len2 in range(0, col, 300):
         data = pd.read_csv("data%%.csv"%(len1,len2))
+        svr = data['0.0.1']
         wet = wet_final[len1//300][len2//300]
         dry = dry_final[len1//300][len2//300]
-        data = (data-dry)/(wet-dry)
+        data = (svr-dry)/(wet-dry)
         #split it into 35 parts 
         #reshape each into a 300 by 300
         #place each colum in the appropriate place in the larger array
