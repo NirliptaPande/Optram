@@ -20,6 +20,7 @@ for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
         if ii < 1960:
             ii += 1
+            print(ii)
             continue
         final_svr = np.array([])
         final_ndvi = np.array([])
