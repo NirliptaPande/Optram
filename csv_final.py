@@ -75,6 +75,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         rows = zip(final_ndvi, final_svr)
 
         with open('data%s%s.csv' % (len1, len2), "w") as f:
+            print('data%s%s' % (len1, len2))
             writer = csv.writer(f)
             for row in rows:
                 writer.writerow(row)
