@@ -18,6 +18,9 @@ temp_file = mpimg.imread('./data/' + band4[0])
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
+        if ii < 1960:
+            ii += 1
+            continue
         final_svr = np.array([])
         final_ndvi = np.array([])
         for file1, file2, file3 in zip(band4, band8, band12):
