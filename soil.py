@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import re
 import matplotlib.image as mpimg
+import numpy as np
 
 
 def expreg(X, y):
@@ -42,10 +43,10 @@ for len1 in range(0, row, 300):
             wet_final[len1 // 300][len2 // 300],
             dry_final[len1 // 300][len2 // 300],
         ) = expreg(ndvi, svr)
+
+data = {}
 for i in range(35):
-    pass
-    # soil%i[len(band4)][len(band4)]
-    # basically create 35 arrays
+    data[i] = np.zeros(row, col)
 
 for len1 in range(0, row, 300):
     for len2 in range(0, col, 300):
@@ -53,8 +54,13 @@ for len1 in range(0, row, 300):
         svr = data['0.0.1']
         wet = wet_final[len1 // 300][len2 // 300]
         dry = dry_final[len1 // 300][len2 // 300]
-        data = (svr - dry) / (wet - dry)
+        soil_data = (svr - dry) / (wet - dry)
         # split it into 35 parts
-        # reshape each into a 300 by 300
-        # place each colum in the appropriate place in the larger array
-# convert it all into raster files
+        soil_data = np.reshape(soil_data, (35, 300, 300))
+        for _ in range(35):
+            data[_][len1 : len1 + 300, len2 : len2 + 300] = soil_data[_]
+
+# Saving as rastor files
+for i in range(35):
+    print(data[i].shape)
+    mpimg.imsave('soil%i.tiff' % i, data[i])
