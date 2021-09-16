@@ -13,12 +13,13 @@ band4 = [file for file in files if re.match(pattern1, file)]
 band8 = [file for file in files if re.match(pattern2, file)]
 band12 = [file for file in files if re.match(swir12, file)]
 ii = 0
-final_svr = np.array([])
-final_ndvi = np.array([])
+
 temp_file = mpimg.imread('./data/' + band4[0])
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
+        final_svr = np.array([])
+        final_ndvi = np.array([])
         for file1, file2, file3 in zip(band4, band8, band12):
             img4 = mpimg.imread('./data/' + file1)
             img8 = mpimg.imread('./data/' + file2)
