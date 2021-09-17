@@ -10,7 +10,7 @@ def expreg(X, y):
     try:
         X_arr = X.to_numpy()
     except:
-        continue
+        pass
     del X
     print('Converted to numpy')
     lam = 100
