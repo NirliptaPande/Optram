@@ -35,6 +35,12 @@ ii = 0
 temp_file = mpimg.imread('./data/' + band4[1])
 data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
+file1 = band4[1]
+file2 = band8[1]
+file3 = band12[1]
+img4 = mpimg.imread('./data/' + file1)
+img8 = mpimg.imread('./data/' + file2)
+img12 = mpimg.imread('./data/' + file3)
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
@@ -42,12 +48,6 @@ for len1 in range(0, temp_file.shape[0], 300):
         final_svr = np.array([])
         final_ndvi = np.array([])
 
-        file1 = band4[1]
-        file2 = band8[1]
-        file3 = band12[1]
-        img4 = mpimg.imread('./data/' + file1)
-        img8 = mpimg.imread('./data/' + file2)
-        img12 = mpimg.imread('./data/' + file3)
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
         else:
