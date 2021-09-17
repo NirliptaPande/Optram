@@ -60,11 +60,11 @@ for len1 in range(0, temp_file.shape[0], 300):
         n2 = range(len2, test_len2)
 
         img4 = img4_[n1, :]
-        img4 = img4_[:, n2]
+        img4 = img4[:, n2]
         img8 = img8_[n1, :]
-        img8 = img8_[:, n2]
+        img8 = img8[:, n2]
         img12 = img12_[n1, :]
-        img12 = img12_[:, n2]
+        img12 = img12[:, n2]
         img8.astype('float64')
         img4.astype('float64')
         img12.astype('float64')
