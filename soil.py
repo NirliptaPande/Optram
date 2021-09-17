@@ -46,7 +46,7 @@ for len1 in range(0, row, 300):
 
 data = {}
 for i in range(35):
-    data[i] = np.zeros(row, col)
+    data[i] = np.zeros((row, col))
 
 for len1 in range(0, row, 300):
     for len2 in range(0, col, 300):

@@ -30,7 +30,7 @@ band12 = [file for file in files if re.match(swir12, file)]
 ii = 0
 
 temp_file = mpimg.imread('./data/' + band4[0])
-data = np.zeros(temp_file.shape[0], temp_file.shape[1])
+data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
 
 for len1 in range(0, temp_file.shape[0], 300):
