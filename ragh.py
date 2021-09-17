@@ -86,19 +86,20 @@ for len1 in range(0, temp_file.shape[0], 300):
             test2.append(temp2)
         ndvi = np.array(ragh)
         svr2 = np.array(test2)
-        invalid = (ndvi > 1).any()
-        if invalid:
-            pdb.set_trace()
-        final_ndvi = np.reshape(ndvi, -1)
-        final_svr = np.reshape(svr2, -1)
-        df_svr = pd.DataFrame(final_svr, columns=['svr'])
-        del final_svr
-        wet, dry = expreg(final_ndvi, df_svr)
-        print(wet, '\t', dry, '\n')
-        if wet - dry == 0:
+        if not svr2.any():
+            # Empty array
             soil_data = np.zeros_like(svr2)
         else:
-            soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
+            final_ndvi = np.reshape(ndvi, -1)
+            final_svr = np.reshape(svr2, -1)
+            df_svr = pd.DataFrame(final_svr, columns=['svr'])
+            del final_svr
+            wet, dry = expreg(final_ndvi, df_svr)
+            print(wet, '\t', dry, '\n')
+            if wet - dry == 0:
+                soil_data = np.zeros_like(svr2)
+            else:
+                soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
 
         if temp_file.shape[0] - len1 < 300:
             temp_row = temp_file.shape[0] - len1
