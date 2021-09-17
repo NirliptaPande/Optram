@@ -70,7 +70,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         img12.astype('float64')
         ragh = []
         test2 = []
-        for i in range(0, 300):
+        for i in range(0, img4.shape[0]):
             t1 = np.copy(img8[i]).astype('float64')
             t2 = np.copy(img4[i]).astype('float64')
             den = t1 + t2
