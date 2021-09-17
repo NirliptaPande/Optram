@@ -111,7 +111,10 @@ for len1 in range(0, temp_file.shape[0], 300):
         else:
             temp_col = 300
 
-        soil_data = np.reshape(soil_data, (temp_row, temp_col))
+        try:
+            soil_data = np.reshape(soil_data, (temp_row, temp_col))
+        except:
+            pdb.set_trace()
         print(soil_data.shape)
 
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
