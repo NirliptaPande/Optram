@@ -99,7 +99,11 @@ for len1 in range(0, temp_file.shape[0], 300):
             soil_data = np.zeros_like(svr2)
         else:
             soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
-        soil_data = np.reshape(soil_data, (300, 300))
+        try:
+            soil_data = np.reshape(soil_data, (300, 300))
+            print(soil_data.shape)
+        except:
+            pdb.set_trace()
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
 
         ii += 1
