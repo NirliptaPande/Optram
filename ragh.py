@@ -125,5 +125,5 @@ for j in range(4, 35):
             print(ii)
 
     print("Shape\t", data.shape)
-    print("****\n\nFILE %d \n\n*****" % (i + 1))
-    mpimg.imsave('soil%i.tiff' % (i + 1), data)
+    print("****\n\nFILE %d \n\n*****" % (j + 1))
+    mpimg.imsave('soil%i.tiff' % (j + 1), data)
