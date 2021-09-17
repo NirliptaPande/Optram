@@ -34,7 +34,7 @@ temp_file = mpimg.imread('./data/' + band4[3])
 data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
 
-for j in range(4, 35):
+for j in range(8, 35):
     file1 = band4[j]
     file2 = band8[j]
     file3 = band12[j]
