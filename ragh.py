@@ -32,12 +32,12 @@ band8 = [file for file in files if re.match(pattern2, file)]
 band12 = [file for file in files if re.match(swir12, file)]
 ii = 0
 
-temp_file = mpimg.imread('./data/' + band4[1])
+temp_file = mpimg.imread('./data/' + band4[3])
 data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
-file1 = band4[1]
-file2 = band8[1]
-file3 = band12[1]
+file1 = band4[3]
+file2 = band8[3]
+file3 = band12[3]
 img4_ = mpimg.imread('./data/' + file1)
 img8_ = mpimg.imread('./data/' + file2)
 img12_ = mpimg.imread('./data/' + file3)
