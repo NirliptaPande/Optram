@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 import re
 import pdb
 import matplotlib.image as mpimg
@@ -12,7 +13,6 @@ def expreg(X, y):
     except:
         X_arr = X
     del X
-    print('Converted to numpy')
     lam = 100
     gam99 = ExpectileGAM(expectile=0.99, lam=lam).fit(X_arr, y)
     print('calc gam0.5')
@@ -91,9 +91,14 @@ for len1 in range(0, temp_file.shape[0], 300):
             pdb.set_trace()
         final_ndvi = np.reshape(ndvi, -1)
         final_svr = np.reshape(svr2, -1)
-        wet, dry = expreg(final_ndvi, final_svr)
+        df_svr = pd.DataFrame(final_svr, columns=['svr'])
+        del final_svr
+        wet, dry = expreg(final_ndvi, df_svr)
         print(wet, '\t', dry, '\n')
-        soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
+        temp_den = wet - dry
+        soil_data = np.true_divide(
+            svr2 - dry, temp_den, out=np.zeros_like(temp_den), where=den != 0
+        )
         soil_data = np.reshape(soil_data, (300, 300))
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
 
