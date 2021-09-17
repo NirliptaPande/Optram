@@ -32,7 +32,7 @@ band8 = [file for file in files if re.match(pattern2, file)]
 band12 = [file for file in files if re.match(swir12, file)]
 ii = 0
 
-temp_file = mpimg.imread('./data/' + band4[0])
+temp_file = mpimg.imread('./data/' + band4[1])
 data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
 
@@ -42,9 +42,9 @@ for len1 in range(0, temp_file.shape[0], 300):
         final_svr = np.array([])
         final_ndvi = np.array([])
 
-        file1 = band4[0]
-        file2 = band8[0]
-        file3 = band12[0]
+        file1 = band4[1]
+        file2 = band8[1]
+        file3 = band12[1]
         img4 = mpimg.imread('./data/' + file1)
         img8 = mpimg.imread('./data/' + file2)
         img12 = mpimg.imread('./data/' + file3)
@@ -99,11 +99,20 @@ for len1 in range(0, temp_file.shape[0], 300):
             soil_data = np.zeros_like(svr2)
         else:
             soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
-        try:
-            soil_data = np.reshape(soil_data, (300, 300))
-            print(soil_data.shape)
-        except:
-            pdb.set_trace()
+
+        if temp_file.shape[0] - test_len1 < 300:
+            temp_row = temp_file.shape[0] - test_len1
+        else:
+            temp_row = 300
+
+        if temp_file.shape[1] - test_len2 < 300:
+            temp_col = temp_file.shape[1] - test_len1
+        else:
+            temp_col = 300
+
+        soil_data = np.reshape(soil_data, (temp_row, temp_col))
+        print(soil_data.shape)
+
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
 
         ii += 1
