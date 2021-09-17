@@ -15,9 +15,7 @@ def expreg(X, y):
     del X
     lam = 100
     gam99 = ExpectileGAM(expectile=0.99, lam=lam).fit(X_arr, y)
-    print('calc gam0.5')
     gam005 = ExpectileGAM(expectile=0.005, lam=lam).fit(X_arr, y)
-    print('predicting:')
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
     return max(pred99), max(pred005)
@@ -46,7 +44,6 @@ for j in range(4, 35):
 
     for len1 in range(0, temp_file.shape[0], 300):
         for len2 in range(0, temp_file.shape[1], 300):
-            print(len1, '\t', len2, '\n')
             final_svr = np.array([])
             final_ndvi = np.array([])
 
@@ -97,7 +94,6 @@ for j in range(4, 35):
                 df_svr = pd.DataFrame(final_svr, columns=['svr'])
                 del final_svr
                 wet, dry = expreg(final_ndvi, df_svr)
-                print(wet, '\t', dry, '\n')
                 if wet - dry == 0:
                     soil_data = np.zeros_like(svr2)
                 else:
@@ -117,13 +113,10 @@ for j in range(4, 35):
                 soil_data = np.reshape(soil_data, (temp_row, temp_col))
             except:
                 pdb.set_trace()
-            print(soil_data.shape)
 
             data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
 
             ii += 1
-            print(ii)
 
-    print("Shape\t", data.shape)
     print("****\n\nFILE %d \n\n*****" % (j + 1))
     mpimg.imsave('soil%i.tiff' % (j + 1), data)
