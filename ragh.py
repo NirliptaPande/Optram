@@ -7,7 +7,10 @@ from pygam import ExpectileGAM
 
 
 def expreg(X, y):
-    X_arr = X.to_numpy()
+    try:
+        X_arr = X.to_numpy()
+    except:
+        continue
     del X
     print('Converted to numpy')
     lam = 100
@@ -35,6 +38,7 @@ data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
+        print(len1, '\t', len2, '\n')
         final_svr = np.array([])
         final_ndvi = np.array([])
 
