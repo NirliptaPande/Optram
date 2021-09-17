@@ -95,10 +95,10 @@ for len1 in range(0, temp_file.shape[0], 300):
         del final_svr
         wet, dry = expreg(final_ndvi, df_svr)
         print(wet, '\t', dry, '\n')
-        temp_den = wet - dry
-        soil_data = np.true_divide(
-            svr2 - dry, temp_den, out=np.zeros_like(temp_den), where=den != 0
-        )
+        if wet - dry == 0:
+            soil_data = np.zeros_like(svr2)
+        else:
+            soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
         soil_data = np.reshape(soil_data, (300, 300))
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
 
