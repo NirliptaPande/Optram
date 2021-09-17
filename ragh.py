@@ -38,9 +38,9 @@ data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 file1 = band4[1]
 file2 = band8[1]
 file3 = band12[1]
-img4 = mpimg.imread('./data/' + file1)
-img8 = mpimg.imread('./data/' + file2)
-img12 = mpimg.imread('./data/' + file3)
+img4_ = mpimg.imread('./data/' + file1)
+img8_ = mpimg.imread('./data/' + file2)
+img12_ = mpimg.imread('./data/' + file3)
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
@@ -59,12 +59,12 @@ for len1 in range(0, temp_file.shape[0], 300):
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
-        img4 = img4[n1, :]
-        img4 = img4[:, n2]
-        img8 = img8[n1, :]
-        img8 = img8[:, n2]
-        img12 = img12[n1, :]
-        img12 = img12[:, n2]
+        img4 = img4_[n1, :]
+        img4 = img4_[:, n2]
+        img8 = img8_[n1, :]
+        img8 = img8_[:, n2]
+        img12 = img12_[n1, :]
+        img12 = img12_[:, n2]
         img8.astype('float64')
         img4.astype('float64')
         img12.astype('float64')
