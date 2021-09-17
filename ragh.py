@@ -92,6 +92,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         final_ndvi = np.reshape(ndvi, -1)
         final_svr = np.reshape(svr2, -1)
         wet, dry = expreg(final_ndvi, final_svr)
+        print(wet, '\t', dry, '\n')
         soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
         soil_data = np.reshape(soil_data, (300, 300))
         data[len1 : len1 + 300, len2 : len2 + 300] = soil_data
