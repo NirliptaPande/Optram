@@ -101,12 +101,12 @@ for len1 in range(0, temp_file.shape[0], 300):
             soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
 
         if temp_file.shape[0] - test_len1 < 300:
-            temp_row = temp_file.shape[0] - test_len1
+            temp_row = temp_file.shape[0] - len1
         else:
             temp_row = 300
 
         if temp_file.shape[1] - test_len2 < 300:
-            temp_col = temp_file.shape[1] - test_len1
+            temp_col = temp_file.shape[1] - len2
         else:
             temp_col = 300
 
