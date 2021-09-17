@@ -35,9 +35,9 @@ ii = 0
 temp_file = mpimg.imread('./data/' + band4[3])
 data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
-file1 = band4[2]
-file2 = band8[2]
-file3 = band12[2]
+file1 = band4[1]
+file2 = band8[1]
+file3 = band12[1]
 img4_ = mpimg.imread('./data/' + file1)
 img8_ = mpimg.imread('./data/' + file2)
 img12_ = mpimg.imread('./data/' + file3)
@@ -123,4 +123,4 @@ for len1 in range(0, temp_file.shape[0], 300):
         print(ii)
 
 print("Shape\t", data.shape)
-mpimg.imsave('soil3.tiff', data)
+mpimg.imsave('soil2.tiff', data)
