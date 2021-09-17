@@ -123,4 +123,4 @@ for len1 in range(0, temp_file.shape[0], 300):
         print(ii)
 
 print("Shape\t", data.shape)
-mpimg.imsave('soil1.tiff', data)
+mpimg.imsave('soil3.tiff', data)
