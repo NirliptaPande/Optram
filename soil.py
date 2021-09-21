@@ -17,7 +17,7 @@ def expreg(X, y):
     print('predicting:')
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
-    return max(pred99), max(pred005)
+    return max(pred99)-min(pred99), max(pred005)-min(pred005)
 
 
 files = os.listdir('data/')
