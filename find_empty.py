@@ -86,6 +86,8 @@ for j in range(35):
                 test2.append(temp2)
             ndvi = np.array(ragh)
             svr2 = np.array(test2)
+            ii += 1
+            print(ii)
             if not svr2.any():
                 # Empty array
                 empty += 1
@@ -93,8 +95,6 @@ for j in range(35):
                 soil_data = np.zeros_like(svr2)
             else:
                 continue
-            ii += 1
-            print(ii)
 
 print(empty)
 print(ii)
