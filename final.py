@@ -18,7 +18,7 @@ def expreg(X, y):
     gam005 = ExpectileGAM(expectile=0.005, lam=lam).fit(X_arr, y)
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
-    return max(pred99), min(pred005)
+    return pred99, pred005
 
 
 pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
@@ -122,4 +122,4 @@ for j in range(35):
             ii += 1
 
     print("****\n\nFILE %d \n\n*****" % (j + 1))
-    mpimg.imsave('soil%i.tiff' % (j + 1), data)
+    mpimg.imsave('clefinal_soil%i.tiff' % (j + 1), data)
