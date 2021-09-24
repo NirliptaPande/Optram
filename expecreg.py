@@ -136,7 +136,6 @@ for file1, file2, file3, file4 in zip(band4, band8, band11, band12):
 
         test1.append(temp1)
         test2.append(temp2)
-    pdb.set_trace()
     ndvi = np.array(ragh)
     svr1 = np.array(test1)
     svr2 = np.array(test2)
@@ -172,17 +171,11 @@ ind2 = np.argwhere(np.isnan(final_ndvi) | np.isinf(final_ndvi))
 ind = np.unique(np.concatenate((ind1, ind2)))
 print("***********\n", ind.shape)
 
-print("Writing data to csv")
-rows = zip(final_ndvi, final_svr)
+pdb.set_trace()
+df_svr = pd.DataFrame(final_svr, columns=['svr1'])
 
-with open('data.csv', "w") as f:
-    writer = csv.writer(f)
-    for row in rows:
-        writer.writerow(row)
-# print(final_svr.shape)
-# print(final_svr_reduced.shape)
-# print(final_ndvi.shape)
-# print(final_ndvi_reduced.shape)
+expreg(final_ndvi, df_svr, final_svr, 'clefinal')
+
 # try:
 #     expreg(ndvi, df_svr2, svr2, "ra" + file1[-12:-4])
 # except ValueError as e:
