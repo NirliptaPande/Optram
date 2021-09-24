@@ -48,7 +48,6 @@ def quantile_reg(df_ndvi, df_svr1):
     plt.plot(df_ndvi, y_pred3, linewidth=2, label='Q Reg : 0.9')
     y_pred4 = models[3].params['Intercept'] + models[3].params['x'] * df_ndvi
     plt.plot(df_ndvi, y_pred4, color='yellow', linewidth=2, label='Q Reg : 0.95')
-    pdb.set_trace()
     x_pred1 = models1[0].params['Intercept'] + models1[0].params['y'] * df_svr1
     plt.plot(x_pred1, df_svr1, linewidth=2, label='Q Reg : 0.05')
     x_pred2 = models1[1].params['Intercept'] + models1[1].params['y'] * df_svr1
@@ -107,12 +106,19 @@ for file1, file2, file3, file4 in zip(band4, band8, band11, band12):
     for i in range(0, len):
         t1 = np.copy(img8[i]).astype('float64')
         t2 = np.copy(img4[i]).astype('float64')
-        temp = np.true_divide(abs(t1 - t2), (t1 + t2 + 0.00001))
+        den = t1 + t2
+        temp = np.true_divide(abs(t1 - t2), den, out=np.zeros_like(den), where=den != 0)
         ragh.append(temp)
         t3 = np.copy(img11[i].astype('float64'))
         t4 = np.copy(img12[i].astype('float64'))
-        temp1 = np.true_divide(((1 - t3) ** 2), (2 * t3))
-        temp2 = np.true_divide(((1 - t4) ** 2), (2 * t4))
+        den1 = 2 * t3
+        den2 = 2 * t4
+        temp1 = np.true_divide(
+            ((1 - t3) ** 2), den1, out=np.zeros_like(den1), where=den1 != 0
+        )
+        temp2 = np.true_divide(
+            ((1 - t4) ** 2), den2, out=np.zeros_like(den2), where=den2 != 0
+        )
         test1.append(temp1)
         test2.append(temp2)
     ndvi = np.array(ragh)
