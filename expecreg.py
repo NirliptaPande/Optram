@@ -136,6 +136,7 @@ for file1, file2, file3, file4 in zip(band4, band8, band11, band12):
 
         test1.append(temp1)
         test2.append(temp2)
+    pdb.set_trace()
     ndvi = np.array(ragh)
     svr1 = np.array(test1)
     svr2 = np.array(test2)
