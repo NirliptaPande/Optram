@@ -25,6 +25,7 @@ def quantile_reg(df_ndvi, df_svr1):
     params = []
     params1 = []
     for qt in quantiles:
+        print(qt)
         res1 = mod1.fit(q=qt)
         res = mod.fit(q=qt)
         models.append(res)
