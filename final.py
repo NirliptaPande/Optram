@@ -97,7 +97,7 @@ for j in range(35):
                 df_svr = pd.DataFrame(final_svr, columns=['svr'])
                 del final_svr
                 wet, dry = expreg(final_ndvi, df_svr)
-                if wet - dry == 0:
+                if (wet - dry).all() == 0:
                     soil_data = np.zeros_like(svr2)
                 else:
                     soil_data = (svr2 - dry) / (wet - dry)  # Shape = (300*300,1)
