@@ -18,7 +18,7 @@ def expreg(X, y):
     gam005 = ExpectileGAM(expectile=0.005, lam=lam).fit(X_arr, y)
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
-    return max(pred99), min(pred005) 
+    return max(pred99), min(pred005)
 
 
 pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
@@ -35,6 +35,9 @@ data = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
 
 for j in range(35):
+    if j < 10:
+        j += 1
+        continue
     file1 = band4[j]
     file2 = band8[j]
     file3 = band12[j]
