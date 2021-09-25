@@ -58,7 +58,6 @@ for len1 in range(0, temp_file.shape[0], 300):
             file1 = band4[j]
             file2 = band8[j]
             file3 = band12[j]
-            print("Reading files for band %d" % j)
             img4 = mpimg.imread('./data/' + file1)
             img8 = mpimg.imread('./data/' + file2)
             img12 = mpimg.imread('./data/' + file3)
@@ -76,7 +75,6 @@ for len1 in range(0, temp_file.shape[0], 300):
             temp_ndvi = np.zeros_like(img4)
             temp_svr = np.zeros_like(img4)
 
-            print("Calculating NDVI")
             # Calculate NDVI row-wise
             for i in range(0, img4.shape[0]):
                 t1 = np.copy(img8[i]).astype('float64')
@@ -94,7 +92,6 @@ for len1 in range(0, temp_file.shape[0], 300):
                 temp_svr[i] = temp2
             temp_ndvi = np.array(temp_ndvi)
             temp_svr = np.array(temp_svr)
-            print("Finished ndvi, svr calculation")
 
             # Flatten the ndvi and svr
             temp_ndvi = np.reshape(temp_ndvi, -1)
@@ -120,23 +117,19 @@ for len1 in range(0, temp_file.shape[0], 300):
             )  # Should it be 0 or something else?
         else:
             df_svr = pd.DataFrame(final_svr, columns=['svr'])
-            print("Calc expecreg")
             wet, dry = expreg(final_ndvi, df_svr)
-            print("Expecreg done")
             del final_ndvi
             if (wet - dry).all() == 0:
                 soil_data = np.zeros((35, temp_row, temp_col))
             else:
-                print("calc soil data")
                 soil_data = (final_svr - dry) / (wet - dry)  # Shape = (300*300*35,1)
-                print("done")
                 np.reshape(soil_data, (35, temp_row, temp_col))
 
         for _ in range(35):
             data[_][len1 : len1 + 300, len2 : len2 + 300] = soil_data[_]
 
         ii += 1
-        print("ii", "\n\n")
+        print(ii, "\n\n")
 
 
 for i in range(35):
