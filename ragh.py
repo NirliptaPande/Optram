@@ -48,8 +48,8 @@ for len1 in range(0, temp_file.shape[0], 300):
         else:
             test_len2 = len2 + 300
 
-        final_svr = np.zeros((test_len1 - len1) * (test_len2 - len2))  # 1d array
-        final_ndvi = np.zeros((test_len1 - len1) * (test_len2 - len2))
+        final_svr = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2))  # 1d array
+        final_ndvi = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2))
 
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
@@ -100,7 +100,6 @@ for len1 in range(0, temp_file.shape[0], 300):
             temp_ndvi = np.reshape(temp_ndvi, -1)
             temp_svr = np.reshape(temp_svr, -1)
             temp_len = temp_ndvi.shape[0]
-            pdb.set_trace()
             final_ndvi[j * temp_len : (j + 1) * temp_len] = temp_ndvi
             final_svr[j * temp_len : (j + 1) * temp_len] = temp_svr
 
