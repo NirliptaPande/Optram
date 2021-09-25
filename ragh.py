@@ -37,8 +37,8 @@ data = {}
 for i in range(35):
     data[i] = np.zeros((temp_file.shape[0], temp_file.shape[1]))
 
-for len1 in range(600, temp_file.shape[0], 300):
-    for len2 in range(600, temp_file.shape[1], 300):
+for len1 in range(0, temp_file.shape[0], 300):
+    for len2 in range(0, temp_file.shape[1], 300):
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
         else:
@@ -130,12 +130,6 @@ for len1 in range(600, temp_file.shape[0], 300):
 
         ii += 1
         print(ii, "\n\n")
-        for i in range(35):
-            print(data[i].shape)
-            mpimg.imsave(
-                'soil_%i_%d_%d.tiff' % (i, len1, len2),
-                data[i][len1:test_len1, len2:test_len2],
-            )
 
 
 for i in range(35):
