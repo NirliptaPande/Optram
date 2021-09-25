@@ -120,7 +120,6 @@ for len1 in range(0, temp_file.shape[0], 300):
             )  # Should it be 0 or something else?
         else:
             df_svr = pd.DataFrame(final_svr, columns=['svr'])
-            del final_svr
             print("Calc expecreg")
             wet, dry = expreg(final_ndvi, df_svr)
             print("Expecreg done")
