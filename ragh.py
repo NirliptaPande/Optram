@@ -100,6 +100,7 @@ for len1 in range(0, temp_file.shape[0], 300):
             temp_ndvi = np.reshape(temp_ndvi, -1)
             temp_svr = np.reshape(temp_svr, -1)
             temp_len = temp_ndvi.shape[0]
+            pdb.set_trace()
             final_ndvi[j * temp_len : (j + 1) * temp_len] = temp_ndvi
             final_svr[j * temp_len : (j + 1) * temp_len] = temp_svr
 
