@@ -45,7 +45,7 @@ for i in range(10):
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
-        if len1 == 0 and len2 <= 9000:
+        if len1 == 0 or (len1 == 300 and len2 <= 1800):
             continue
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
