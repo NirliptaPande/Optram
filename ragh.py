@@ -54,7 +54,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
-        for j in range(8, 18):
+        for j in range(35):
             file1 = band4[j]
             file2 = band8[j]
             file3 = band12[j]
@@ -118,20 +118,5 @@ for len1 in range(0, temp_file.shape[0], 300):
         else:
             df_svr = pd.DataFrame(final_svr, columns=['svr'])
             wet, dry = expreg(final_ndvi, df_svr)
-            del final_ndvi
-            if (wet - dry).all() == 0:
-                soil_data = np.zeros((35, temp_row, temp_col))
-            else:
-                soil_data = (final_svr - dry) / (wet - dry)  # Shape = (300*300*35,1)
-                np.reshape(soil_data, (35, temp_row, temp_col))
-
-        for _ in range(35):
-            data[_][len1 : len1 + 300, len2 : len2 + 300] = soil_data[_]
-
-        ii += 1
-        print(ii, "\n\n")
-
-
-for i in range(35):
-    print(data[i].shape)
-    mpimg.imsave('clefinal_soil%i.tiff' % i, data[i])
+            np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
+            np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
