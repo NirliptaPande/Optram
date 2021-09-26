@@ -34,23 +34,11 @@ temp_file = mpimg.imread('./data/' + band4[0])
 
 # Create 35 empty variables
 data = {}
-img4_ = {}
-img8_ = {}
-img12_ = {}
 for i in range(35):
     data[i] = np.zeros((temp_file.shape[0], temp_file.shape[1]))
-    file1 = band4[i]
-    file2 = band8[i]
-    file3 = band12[i]
-    img4_[i] = mpimg.imread('./data/' + file1)
-    img8_[i] = mpimg.imread('./data/' + file2)
-    img12_[i] = mpimg.imread('./data/' + file3)
-
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
-        if len1 == 0 and len2 <= 9000:
-            continue
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
         else:
@@ -67,11 +55,18 @@ for len1 in range(0, temp_file.shape[0], 300):
         n2 = range(len2, test_len2)
 
         for j in range(35):
-            img4 = img4_[j][n1, :]
+            file1 = band4[j]
+            file2 = band8[j]
+            file3 = band12[j]
+            img4 = mpimg.imread('./data/' + file1)
+            img8 = mpimg.imread('./data/' + file2)
+            img12 = mpimg.imread('./data/' + file3)
+
+            img4 = img4[n1, :]
             img4 = img4[:, n2]
-            img8 = img8_[j][n1, :]
+            img8 = img8[n1, :]
             img8 = img8[:, n2]
-            img12 = img12_[j][n1, :]
+            img12 = img12[n1, :]
             img12 = img12[:, n2]
 
             img8.astype('float64')
