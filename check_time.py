@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import re
-import time
+import timeit
 import matplotlib.image as mpimg
 
 
@@ -23,7 +23,7 @@ for i in range(35):
 
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
-        t = time.time()
+        tic = timeit.default_timer()
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
         else:
@@ -39,7 +39,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
-        for j in range(35):
+        for j in range(5, 20):
             file1 = band4[j]
             file2 = band8[j]
             file3 = band12[j]
@@ -84,5 +84,5 @@ for len1 in range(0, temp_file.shape[0], 300):
             temp_len = temp_ndvi.shape[0]
             final_ndvi[j * temp_len : (j + 1) * temp_len] = temp_ndvi
             final_svr[j * temp_len : (j + 1) * temp_len] = temp_svr
-        elapsed = time.time() - t
-        print('\n\n', elapsed, '\n\n')
+        toc = timeit.default_timer()
+        print('\n\n', toc - tic, '\n\n')
