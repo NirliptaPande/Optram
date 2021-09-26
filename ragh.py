@@ -33,10 +33,12 @@ ii = 0
 temp_file = mpimg.imread('./data/' + band4[0])
 
 # Create 35 empty variables
+data = {}
 img4_ = {}
 img8_ = {}
 img12_ = {}
-for i in range(8, 18):
+for i in range(35):
+    data[i] = np.zeros((temp_file.shape[0], temp_file.shape[1]))
     file1 = band4[i]
     file2 = band8[i]
     file3 = band12[i]
@@ -64,7 +66,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
-        for j in range(8, 18):
+        for j in range(35):
             img4 = img4_[j][n1, :]
             img4 = img4[:, n2]
             img8 = img8_[j][n1, :]
@@ -113,7 +115,13 @@ for len1 in range(0, temp_file.shape[0], 300):
         else:
             temp_col = 300
 
-        df_svr = pd.DataFrame(final_svr, columns=['svr'])
-        wet, dry = expreg(final_ndvi, df_svr)
-        np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
-        np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
+        if not final_svr.any():
+            # Empty array
+            soil_data = np.zeros(
+                (temp_row, temp_col)
+            )  # Should it be 0 or something else?
+        else:
+            df_svr = pd.DataFrame(final_svr, columns=['svr'])
+            wet, dry = expreg(final_ndvi, df_svr)
+            np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
+            np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
