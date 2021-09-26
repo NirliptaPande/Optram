@@ -32,13 +32,10 @@ ii = 0
 
 temp_file = mpimg.imread('./data/' + band4[0])
 
-# Create 35 empty variables
-data = {}
-for i in range(35):
-    data[i] = np.zeros((temp_file.shape[0], temp_file.shape[1]))
-
 for len1 in range(0, temp_file.shape[0], 300):
     for len2 in range(0, temp_file.shape[1], 300):
+        if len1 == 0 and len2 <= 9000:
+            continue
         if len1 + 300 > temp_file.shape[0]:
             test_len1 = temp_file.shape[0]
         else:
@@ -110,13 +107,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         else:
             temp_col = 300
 
-        if not final_svr.any():
-            # Empty array
-            soil_data = np.zeros(
-                (temp_row, temp_col)
-            )  # Should it be 0 or something else?
-        else:
-            df_svr = pd.DataFrame(final_svr, columns=['svr'])
-            wet, dry = expreg(final_ndvi, df_svr)
-            np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
-            np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
+        df_svr = pd.DataFrame(final_svr, columns=['svr'])
+        wet, dry = expreg(final_ndvi, df_svr)
+        np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
+        np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
