@@ -54,7 +54,7 @@ for len1 in range(0, temp_file.shape[0], 300):
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
-        for j in range(35):
+        for j in range(8, 18):
             file1 = band4[j]
             file2 = band8[j]
             file3 = band12[j]
