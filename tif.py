@@ -11,6 +11,7 @@ band12 = [file for file in files if re.match(swir12, file)]
 temp_file = mpimg.imread('./data/' + band12[0])
 row = temp_file.shape[0]
 col = temp_file.shape[1]
+del temp_file
 
 # len_row = (row // 300) + 1
 # len_col = (col // 300) + 1
@@ -25,12 +26,12 @@ for file3 in band12:
             print(len1, '\t', len2)
             test_len1 = 0
             test_len2 = 0
-            if len1 + 300 > temp_file.shape[0]:
-                test_len1 = temp_file.shape[0]
+            if len1 + 300 > row:
+                test_len1 = row
             else:
                 test_len1 = len1 + 300
-            if len2 + 300 > temp_file.shape[1]:
-                test_len2 = temp_file.shape[1]
+            if len2 + 300 > col:
+                test_len2 = col
             else:
                 test_len2 = len2 + 300
             n1 = range(len1, test_len1)
@@ -59,8 +60,11 @@ for file3 in band12:
                 svr.append(temp2)
             soil_data = (svr - dry) / (wet - dry)
             data[len1:test_len1, len2:test_len2] = soil_data
-    c = c + 1
+
+    del soil_data, wet, dry, img12, svr, n1, n2
     print("\n")
+    c = c + 1
+    mpimg.imsave('clefinal_soil%s.tiff' % file3[-12:-4], data)
     fig = pyplot.figure()
     ax = fig.add_subplot(1, 1, 1)
     plot = ax.pcolor(data)
