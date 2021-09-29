@@ -126,3 +126,4 @@ for len1 in range(0, temp_file.shape[0], 300):
         wet, dry = expreg(final_ndvi, df_svr)
         np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
         np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
+        np.save('vars/svr_%d_%d.npy' % (len1, len2), final_svr)
