@@ -66,7 +66,6 @@ for file3 in band12:
     c = c + 1
     mpimg.imsave('clefinal_soil%s.tiff' % file3[-12:-4], data)
     np.save('vars/soil_%s' % file3[-12:-4], data)
-    del data
     plt.imshow(data)
     plt.colorbar()
     plt.savefig('soil%s.tiff' % file3[-12:-4])
