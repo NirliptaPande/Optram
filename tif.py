@@ -7,14 +7,14 @@ import matplotlib.image as mpimg
 files = os.listdir('data/')
 # npyfiles = os.listdir('vars/')
 swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
-temp_file = mpimg.imread('./data/' + swir12[0])
+band12 = [file for file in files if re.match(swir12, file)]
+temp_file = mpimg.imread('./data/' + band12[0])
 row = temp_file.shape[0]
 col = temp_file.shape[1]
 
 # len_row = (row // 300) + 1
 # len_col = (col // 300) + 1
 
-band12 = [file for file in files if re.match(swir12, file)]
 c = 0
 for file3 in band12:
     data = np.zeros((row, col))
