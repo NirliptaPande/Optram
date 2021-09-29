@@ -4,6 +4,7 @@ import re
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 
+plt.rcParams.update({'font.size': 160})
 files = os.listdir('data/')
 # npyfiles = os.listdir('vars/')
 swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
@@ -61,6 +62,8 @@ for file3 in band12:
     del soil_data, wet, dry, img12, svr, n1, n2
     print("\n")
     c = c + 1
-    mpimg.imsave('clefinal_soil%s.tiff' % file3[-12:-4], data)
-    np.save('vars/soil_%s' % file3[-12:-4], data)
+    fig = plt.figure(figsize=(109.8, 109.8), dpi=100)
+    plt.imshow(data)
+    plt.colorbar()
+    plt.savefig("soil%s.tiff' % file3[-12:-4]")
     del data
