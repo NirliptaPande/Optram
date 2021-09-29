@@ -9,15 +9,15 @@ import numpy as np
 def expreg(X, y):
     X_arr = X.to_numpy()
     del X
-    print('Converted to numpy')
+    #print('Converted to numpy')
     lam = 100
     gam99 = ExpectileGAM(expectile=0.99, lam=lam).fit(X_arr, y)
-    print('calc gam0.5')
+    #print('calc gam0.5')
     gam005 = ExpectileGAM(expectile=0.005, lam=lam).fit(X_arr, y)
-    print('predicting:')
+    #print('predicting:')
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
-    return max(pred99)-min(pred99), max(pred005)-min(pred005)
+    return pred99, pred005 #change this
 
 
 files = os.listdir('data/')
@@ -38,7 +38,7 @@ for len1 in range(0, row, 300):
         ndvi = data['0.0']
         svr = data['0.0.1']
         del data
-        print('calling expecreg')
+        #print('calling expecreg')
         (
             wet_final[len1 // 300][len2 // 300],
             dry_final[len1 // 300][len2 // 300],
