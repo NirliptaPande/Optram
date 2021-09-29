@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import re
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 
 files = os.listdir('data/')
@@ -66,8 +66,7 @@ for file3 in band12:
     c = c + 1
     mpimg.imsave('clefinal_soil%s.tiff' % file3[-12:-4], data)
     np.save('vars/soil_%s' % file3[-12:-4], data)
-    # fig = pyplot.figure()
-    # ax = fig.add_subplot(1, 1, 1)
-    # plot = ax.pcolor(data)
-    # fig.colorbar(plot)
-    # pyplot.savefig('soil%s.tiff' % file3[-12:-4])
+    del data
+    plt.imshow(data)
+    plt.colorbar()
+    plt.savefig('soil%s.tiff' % file3[-12:-4])
