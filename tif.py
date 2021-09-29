@@ -18,43 +18,49 @@ col = temp_file.shape[1]
 c = 0
 for file3 in band12:
     data = np.zeros((row, col))
+    print("Reading file: %s" % file3)
+    img12_ = mpimg.imread('./data/' + file3)
     for len1 in range(0, row, 300):
         for len2 in range(0, col, 300):
-            img12_ = mpimg.imread('./data/' + file3)
-        test_len1 = 0
-        test_len2 = 0
-        if len1 + 300 > temp_file.shape[0]:
-            test_len1 = temp_file.shape[0]
-        else:
-            test_len1 = len1 + 300
-        if len2 + 300 > temp_file.shape[1]:
-            test_len2 = temp_file.shape[1]
-        else:
-            test_len2 = len2 + 300
-        n1 = range(len1, test_len1)
-        n2 = range(len2, test_len2)
-        img12 = img12_[n1, :]
-        img12 = img12[:, n2]
-        svr = []
-        wet_final = np.load('vars/wet_%d_%d.npy' % (len1, len2))
-        dry_final = np.load('vars/dry_%d_%d.npy' % (len1, len2))
-        wet_final = np.array_split(wet_final, 35)
-        dry_final = np.array_split(dry_final, 35)
-        wet = np.reshape(wet_final[c], ((test_len1 - len1), (test_len2 - len2)))
-        dry = np.reshape(dry_final[c], ((test_len1 - len1), (test_len2 - len2)))
-        del wet_final
-        del dry_final
+            print(len1, '\t', len2)
+            test_len1 = 0
+            test_len2 = 0
+            if len1 + 300 > temp_file.shape[0]:
+                test_len1 = temp_file.shape[0]
+            else:
+                test_len1 = len1 + 300
+            if len2 + 300 > temp_file.shape[1]:
+                test_len2 = temp_file.shape[1]
+            else:
+                test_len2 = len2 + 300
+            n1 = range(len1, test_len1)
+            n2 = range(len2, test_len2)
+            img12 = img12_[n1, :]
+            img12 = img12[:, n2]
+            svr = []
+            print("Loading wet final")
+            wet_final = np.load('vars/wet_%d_%d.npy' % (len1, len2))
+            wet_final = np.array_split(wet_final, 35)
+            wet = np.reshape(wet_final[c], ((test_len1 - len1), (test_len2 - len2)))
+            del wet_final
+            print("Loading dry final")
+            dry_final = np.load('vars/dry_%d_%d.npy' % (len1, len2))
+            dry_final = np.array_split(dry_final, 35)
+            dry = np.reshape(dry_final[c], ((test_len1 - len1), (test_len2 - len2)))
+            del dry_final
 
-        for i in range(0, img12.shape[0]):
-            t4 = np.copy(img12[i].astype('float64'))
-            den2 = 2 * t4
-            temp2 = np.true_divide(
-                ((1 - t4) ** 2), den2, out=np.zeros_like(den2), where=den2 != 0
-            )
-            svr.append(temp2)
-        soil_data = (svr - dry) / (wet - dry)
-        data[len1:test_len1, len2:test_len2] = soil_data
+            print("computing svr")
+            for i in range(0, img12.shape[0]):
+                t4 = np.copy(img12[i].astype('float64'))
+                den2 = 2 * t4
+                temp2 = np.true_divide(
+                    ((1 - t4) ** 2), den2, out=np.zeros_like(den2), where=den2 != 0
+                )
+                svr.append(temp2)
+            soil_data = (svr - dry) / (wet - dry)
+            data[len1:test_len1, len2:test_len2] = soil_data
     c = c + 1
+    print("\n")
     fig = pyplot.figure()
     ax = fig.add_subplot(1, 1, 1)
     plot = ax.pcolor(data)
