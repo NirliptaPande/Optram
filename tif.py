@@ -39,18 +39,15 @@ for file3 in band12:
             img12 = img12_[n1, :]
             img12 = img12[:, n2]
             svr = []
-            print("Loading wet final")
             wet_final = np.load('vars/wet_%d_%d.npy' % (len1, len2))
             wet_final = np.array_split(wet_final, 35)
             wet = np.reshape(wet_final[c], ((test_len1 - len1), (test_len2 - len2)))
             del wet_final
-            print("Loading dry final")
             dry_final = np.load('vars/dry_%d_%d.npy' % (len1, len2))
             dry_final = np.array_split(dry_final, 35)
             dry = np.reshape(dry_final[c], ((test_len1 - len1), (test_len2 - len2)))
             del dry_final
 
-            print("computing svr")
             for i in range(0, img12.shape[0]):
                 t4 = np.copy(img12[i].astype('float64'))
                 den2 = 2 * t4
@@ -66,6 +63,4 @@ for file3 in band12:
     c = c + 1
     mpimg.imsave('clefinal_soil%s.tiff' % file3[-12:-4], data)
     np.save('vars/soil_%s' % file3[-12:-4], data)
-    plt.imshow(data)
-    plt.colorbar()
-    plt.savefig('soil%s.tiff' % file3[-12:-4])
+    del data
