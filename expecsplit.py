@@ -19,32 +19,7 @@ def expreg(X, y):
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
     return pred99, pred005
-
-if __name__ == "__main__":
-    pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
-    pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
-    swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
-    files = os.listdir('data/')
-    files = sorted(files)
-    band4 = [file for file in files if re.match(pattern1, file)]
-    band8 = [file for file in files if re.match(pattern2, file)]
-    band12 = [file for file in files if re.match(swir12, file)]
-
-    ii = 0
-    temp_file = np.empty((10980, 10980))
-    with rasterio.open('./data/' + band4[0]) as f:
-        temp_file = f.read(1)
-    row = temp_file.shape[0]
-    col = temp_file.shape[1]
-    del temp_file
-    img4_ = {}
-    img8_ = {}
-    img12_ = {}
-    with Pool(8) as pool:
-        pool.starmap(compute, [(0, 1500), (1500, 2700), (2700, 4200),(4200,5400),(5400,6900),(6900,8100),(8100,9600),(9600,10980)])
-
-#profile = {}
-
+    
 def compute(begin,target):
     for len1 in range(begin, target, 300):
         for len2 in range(0, col, 300):
@@ -123,3 +98,30 @@ def compute(begin,target):
             np.save('vars/svr_%d_%d.npy' % (len1, len2),final_svr)
             np.save('vars/wet_%d_%d.npy' % (len1, len2),wet)
             np.save('vars/dry_%d_%d.npy' % (len1, len2),dry)
+
+
+if __name__ == "__main__":
+    pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
+    pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
+    swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
+    files = os.listdir('data/')
+    files = sorted(files)
+    band4 = [file for file in files if re.match(pattern1, file)]
+    band8 = [file for file in files if re.match(pattern2, file)]
+    band12 = [file for file in files if re.match(swir12, file)]
+
+    ii = 0
+    temp_file = np.empty((10980, 10980))
+    with rasterio.open('./data/' + band4[0]) as f:
+        temp_file = f.read(1)
+    row = temp_file.shape[0]
+    col = temp_file.shape[1]
+    del temp_file
+    img4_ = {}
+    img8_ = {}
+    img12_ = {}
+    with Pool(8) as pool:
+        pool.starmap(compute, [(0, 1500), (1500, 2700), (2700, 4200),(4200,5400),(5400,6900),(6900,8100),(8100,9600),(9600,10980)])
+
+#profile = {}
+
