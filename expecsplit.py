@@ -40,7 +40,7 @@ if __name__ == "__main__":
     img4_ = {}
     img8_ = {}
     img12_ = {}
-    with Pool() as pool:
+    with Pool(8) as pool:
         pool.starmap(compute, [(0, 1500), (1500, 2700), (2700, 4200),(4200,5400),(5400,6900),(6900,8100),(8100,9600),(9600,10980)])
 
 #profile = {}
@@ -68,13 +68,13 @@ def compute(begin,target):
                 file2 = band8[j]
                 file3 = band12[j]
                 with rasterio.open('./data/' + file1) as f:
-                    img4 = mpimg.imread('./data/' + file1)
+                    img4 = f.read(1)
                 with rasterio.open('./data/' + file2) as f:
-                    img8 = mpimg.imread('./data/' + file2)
+                    img8 = f.read(1)
                 with rasterio.open('./data/' + file1) as f:
-                    img12 = mpimg.imread('./data/' + file3)
-                    print(f.profile)
-                    print(j)
+                    img12 = f.read(1)
+                   # print(f.profile)
+                    #print(j)
                 img4 = img4[n1, :]
                 img4 = img4[:, n2]
                 img8 = img8[n1, :]
