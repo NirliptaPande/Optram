@@ -19,7 +19,7 @@ def expreg(X, y):
     pred99 = gam99.predict(X_arr)
     pred005 = gam005.predict(X_arr)
     return pred99, pred005
-    
+
 def compute(begin,target):
     for len1 in range(begin, target, 300):
         for len2 in range(0, col, 300):
@@ -71,8 +71,9 @@ def compute(begin,target):
                     temp = np.true_divide(
                         (t1 - t2), den, out=np.zeros_like(den), where=den != 0
                     )  # NDVI of a row
-                    if (temp<0):
-                        temp = 0
+                    for i in range(len(temp)):
+                        if (temp[i]<0):
+                            temp[i] = 0
                     temp_ndvi[i] = temp
                     t4 = np.copy(img12[i].astype('float64'))
                     den2 = 2 * t4
