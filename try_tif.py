@@ -1,7 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import rasterio
 
-plt.rcParams.update({'font.size': 160})
+#plt.rcParams.update({'font.size': 160})
 
 row = 10980
 col = 10980
@@ -9,7 +10,7 @@ col = 10980
 # len_row = (row // 300) + 1
 # len_col = (col // 300) + 1
 
-c = 0
+
 for dummy in range(35):
     data = np.zeros((row, col))
 
@@ -41,11 +42,11 @@ for dummy in range(35):
             del svr_final
 
             soil_data = (svr - dry) / (wet - dry)
+
             data[len1:test_len1, len2:test_len2] = soil_data
 
-    del soil_data, wet, dry, img12, svr, n1, n2
-    print("\n")
-    c = c + 1
+    del soil_data, wet, dry, svr
+    print(dummy)
     fig = plt.figure(figsize=(109.8, 109.8), dpi=100)
     plt.imshow(data)
     plt.colorbar()

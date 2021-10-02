@@ -1,11 +1,10 @@
 import os
 import numpy as np
-import pandas as pd
+from pandas import DataFrame
 import re
 import pdb
-import matplotlib.image as mpimg
 from pygam import ExpectileGAM
-
+import rasterio
 
 def expreg(X, y):
     try:
@@ -25,55 +24,52 @@ pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
 pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
 swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
 files = os.listdir('data/')
+files = sorted(files)
 band4 = [file for file in files if re.match(pattern1, file)]
 band8 = [file for file in files if re.match(pattern2, file)]
 band12 = [file for file in files if re.match(swir12, file)]
+
 ii = 0
-
-temp_file = mpimg.imread('./data/' + band4[0])
-
+temp_file = np.empty((10980, 10980))
+with rasterio.open('./data/' + band4[0]) as f:
+    temp_file = f.read(1)
+row = temp_file.shape[0]
+col = temp_file.shape[1]
+del temp_file
 img4_ = {}
 img8_ = {}
 img12_ = {}
-for i in range(10):
-    file1 = band4[i]
-    file2 = band8[i]
-    file3 = band12[i]
-    img4_[i] = mpimg.imread('./data/' + file1)
-    img8_[i] = mpimg.imread('./data/' + file2)
-    img12_[i] = mpimg.imread('./data/' + file3)
+#profile = {}
 
-for len1 in range(0, temp_file.shape[0], 300):
-    for len2 in range(0, temp_file.shape[1], 300):
-        if len1 == 0 or (len1 == 300 and len2 <= 1800):
-            continue
-        if len1 + 300 > temp_file.shape[0]:
-            test_len1 = temp_file.shape[0]
+for len1 in range(0, row, 300):
+    for len2 in range(0, col, 300):
+        if len1 + 300 > row:
+            test_len1 = row
         else:
             test_len1 = len1 + 300
-        if len2 + 300 > temp_file.shape[1]:
-            test_len2 = temp_file.shape[1]
+        if len2 + 300 > col:
+            test_len2 = col
         else:
             test_len2 = len2 + 300
 
-        final_svr = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2))  # 1d array
-        final_ndvi = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2))
+        final_svr = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2),dtype=float)  # 1d array
+        final_ndvi = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2),dtype=float)
 
         n1 = range(len1, test_len1)
         n2 = range(len2, test_len2)
 
         for j in range(35):
-            if j in range(10):
-                img4 = img4_[j]
-                img8 = img8_[j]
-                img12 = img12_[j]
-            else:
-                file1 = band4[j]
-                file2 = band8[j]
-                file3 = band12[j]
+            file1 = band4[j]
+            file2 = band8[j]
+            file3 = band12[j]
+            with rasterio.open('./data/' + file1) as f:
                 img4 = mpimg.imread('./data/' + file1)
+            with rasterio.open('./data/' + file2) as f:
                 img8 = mpimg.imread('./data/' + file2)
+            with rasterio.open('./data/' + file1) as f:
                 img12 = mpimg.imread('./data/' + file3)
+                print(f.profile)
+                print(j)
             img4 = img4[n1, :]
             img4 = img4[:, n2]
             img8 = img8[n1, :]
@@ -111,19 +107,12 @@ for len1 in range(0, temp_file.shape[0], 300):
             temp_len = temp_ndvi.shape[0]
             final_ndvi[j * temp_len : (j + 1) * temp_len] = temp_ndvi
             final_svr[j * temp_len : (j + 1) * temp_len] = temp_svr
-
-        if temp_file.shape[0] - len1 < 300:
-            temp_row = temp_file.shape[0] - len1
-        else:
-            temp_row = 300
-
-        if temp_file.shape[1] - len2 < 300:
-            temp_col = temp_file.shape[1] - len2
-        else:
-            temp_col = 300
-
-        df_svr = pd.DataFrame(final_svr, columns=['svr'])
+            
+        df_svr = DataFrame(final_svr, columns=['svr'])#use directly pd.dataframe in import
         wet, dry = expreg(final_ndvi, df_svr)
-        np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
-        np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
-        np.save('vars/svr_%d_%d.npy' % (len1, len2), final_svr)
+        #feather.write_feather(df_svr, 'vars/svr_%d_%d.feather' % (len1, len2))
+        #feather.write_feather(wet, 'vars/wet_%d_%d.feather' % (len1, len2))
+        #feather.write_feather(dry, 'vars/dry_%d_%d.feather' % (len1, len2))
+        np.save('vars/svr_%d_%d.npy' % (len1, len2),final_svr)
+        np.save('vars/wet_%d_%d.npy' % (len1, len2),wet)
+        np.save('vars/dry_%d_%d.npy' % (len1, len2),dry)

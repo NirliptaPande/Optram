@@ -6,6 +6,7 @@ import matplotlib.image as mpimg
 
 plt.rcParams.update({'font.size': 160})
 files = os.listdir('data/')
+files = sorted(files)
 # npyfiles = os.listdir('vars/')
 swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
 band12 = [file for file in files if re.match(swir12, file)]

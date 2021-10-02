@@ -38,7 +38,7 @@ for len1 in range(0, row, 300):
         ndvi = data['0.0']
         svr = data['0.0.1']
         del data
-        #print('calling expecreg')
+        print('calling expecreg')
         (
             wet_final[len1 // 300][len2 // 300],
             dry_final[len1 // 300][len2 // 300],
