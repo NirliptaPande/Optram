@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import rasterio
-
+from multiprocessing import Pool
 #plt.rcParams.update({'font.size': 160})
 
 row = 10980
@@ -11,7 +11,7 @@ col = 10980
 # len_col = (col // 300) + 1
 
 
-for dummy in range(35):
+def compute(dummy,test):
     data = np.zeros((row, col))
 
     for len1 in range(0, row, 300):
@@ -47,8 +47,25 @@ for dummy in range(35):
 
     del soil_data, wet, dry, svr
     print(dummy)
-    fig = plt.figure(figsize=(109.8, 109.8), dpi=100)
-    plt.imshow(data)
-    plt.colorbar()
-    plt.savefig("soil%s.tiff' % file3[-12:-4]")
+    #fig = plt.figure(figsize=(109.8, 109.8), dpi=100)
+    #plt.imshow(data)
+    #plt.colorbar()
+    #plt.savefig("soil%s.tiff' % test[-12:-4]")
+    inds = np.where(data<0)
+    data[inds]=0
+    with rasterio.open('soil%s.tiff' % test[-12:-4], 'w', **profile) as f:
+        f.write(data)
     del data
+if __name__ == "__main__":
+    swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
+    files = os.listdir('data/')
+    files = sorted(files)
+    band12 = [file for file in files if re.match(swir12, file)]
+    #temp_file = np.empty((10980, 10980))
+    profile = {}
+    a_args = range(0,35)
+    with rasterio.open('./data/' + band12[0]) as f:
+        profile = f.profile
+    with Pool() as pool:
+        pool.starmap(compute, zip(a_args, band12))
+
