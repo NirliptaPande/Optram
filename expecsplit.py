@@ -109,7 +109,7 @@ def compute(begin, target):
             np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
 
 
-if name == "__main__":
+if __name__ == "__main__":
     pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
     pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
     swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
