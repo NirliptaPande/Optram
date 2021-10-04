@@ -130,7 +130,7 @@ if __name__ == "__main__":
     img8_ = {}
     img12_ = {}
     with Pool() as pool:
-        pool.starmap(compute, [(0, 3660), (3660, 7320), (7320, 10980)])
+        pool.starmap(compute, [(0, 3600), (3600, 7200), (7200, 10980)])
 
 # profile = {} 12/,24/,39/,51/,66/,78/,93/,10980 check 8400 onwards, can see 9300, but working on 8400
 # 8400,4500! 8700! 90/ 9300,5100! 9600,3000! 10200,5100!
