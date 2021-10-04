@@ -7,6 +7,7 @@ from pygam import ExpectileGAM
 import rasterio
 from multiprocessing import Pool
 
+
 def expreg(X, y):
     try:
         X_arr = X.to_numpy()
@@ -20,7 +21,8 @@ def expreg(X, y):
     pred005 = gam005.predict(X_arr)
     return pred99, pred005
 
-def compute(begin,target):
+
+def compute(begin, target):
     for len1 in range(begin, target, 300):
         for len2 in range(0, col, 300):
             if len1 + 300 > row:
@@ -32,8 +34,12 @@ def compute(begin,target):
             else:
                 test_len2 = len2 + 300
 
-            final_svr = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2),dtype=float)  # 1d array
-            final_ndvi = np.zeros(35 * (test_len1 - len1) * (test_len2 - len2),dtype=float)
+            final_svr = np.zeros(
+                35 * (test_len1 - len1) * (test_len2 - len2), dtype=float
+            )  # 1d array
+            final_ndvi = np.zeros(
+                35 * (test_len1 - len1) * (test_len2 - len2), dtype=float
+            )
 
             n1 = range(len1, test_len1)
             n2 = range(len2, test_len2)
@@ -48,8 +54,8 @@ def compute(begin,target):
                     img8 = f.read(1)
                 with rasterio.open('./data/' + file1) as f:
                     img12 = f.read(1)
-                   # print(f.profile)
-                    #print(j)
+                # print(f.profile)
+                # print(j)
                 img4 = img4[n1, :]
                 img4 = img4[:, n2]
                 img8 = img8[n1, :]
@@ -71,9 +77,9 @@ def compute(begin,target):
                     temp = np.true_divide(
                         (t1 - t2), den, out=np.zeros_like(den), where=den != 0
                     )  # NDVI of a row
-                    for i in range(len(temp)):
-                        if (temp[i]<0):
-                            temp[i] = 0
+                    for _ in range(len(temp)):
+                        if temp[_] < 0:
+                            temp[_] = 0
                     temp_ndvi[i] = temp
                     t4 = np.copy(img12[i].astype('float64'))
                     den2 = 2 * t4
@@ -90,18 +96,20 @@ def compute(begin,target):
                 temp_len = temp_ndvi.shape[0]
                 final_ndvi[j * temp_len : (j + 1) * temp_len] = temp_ndvi
                 final_svr[j * temp_len : (j + 1) * temp_len] = temp_svr
-                
-            df_svr = DataFrame(final_svr, columns=['svr'])#use directly pd.dataframe in import
+
+            df_svr = DataFrame(
+                final_svr, columns=['svr']
+            )  # use directly pd.dataframe in import
             wet, dry = expreg(final_ndvi, df_svr)
-            #feather.write_feather(df_svr, 'vars/svr_%d_%d.feather' % (len1, len2))
-            #feather.write_feather(wet, 'vars/wet_%d_%d.feather' % (len1, len2))
-            #feather.write_feather(dry, 'vars/dry_%d_%d.feather' % (len1, len2))
-            np.save('vars/svr_%d_%d.npy' % (len1, len2),final_svr)
-            np.save('vars/wet_%d_%d.npy' % (len1, len2),wet)
-            np.save('vars/dry_%d_%d.npy' % (len1, len2),dry)
+            # feather.write_feather(df_svr, 'vars/svr_%d_%d.feather' % (len1, len2))
+            # feather.write_feather(wet, 'vars/wet_%d_%d.feather' % (len1, len2))
+            # feather.write_feather(dry, 'vars/dry_%d_%d.feather' % (len1, len2))
+            np.save('vars/svr_%d_%d.npy' % (len1, len2), final_svr)
+            np.save('vars/wet_%d_%d.npy' % (len1, len2), wet)
+            np.save('vars/dry_%d_%d.npy' % (len1, len2), dry)
 
 
-if __name__ == "__main__":
+if name == "__main__":
     pattern1 = '^s2tile_31UDR_R051-N28_stack_s2-B04_2018.....tif$'
     pattern2 = '^s2tile_31UDR_R051-N28_stack_s2-B08_2018.....tif$'
     swir12 = '^s2tile_31UDR_R051-N28_stack_s2-B12_2018.....tif$'
@@ -121,7 +129,9 @@ if __name__ == "__main__":
     img4_ = {}
     img8_ = {}
     img12_ = {}
-    with Pool(4) as pool:
-        pool.starmap(compute, [(8100, 9000), (9000, 9900), (9900, 10980)])
+    with Pool() as pool:
+        pool.starmap(compute, [(0, 3660), (3660, 7320), (7320, 10980)])
 
-# profile = {} 12!,24/,39!,51/,66/,78!,93!,10980
+# profile = {} 12/,24/,39/,51/,66/,78/,93/,10980 check 8400 onwards, can see 9300, but working on 8400
+# 8400,4500! 8700! 90/ 9300,5100! 9600,3000! 10200,5100!
+# 8400,8700,9300,9600,10200,10500,10800
