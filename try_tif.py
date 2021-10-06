@@ -18,7 +18,6 @@ def compute(dummy, test):
 
     for len1 in range(0, row, 300):
         for len2 in range(0, col, 300):
-            print(len1, '\t', len2)
             test_len1 = 0
             test_len2 = 0
             if len1 + 300 > row:
