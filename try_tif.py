@@ -57,6 +57,7 @@ def compute(dummy, test):
 
     inds = np.where(data > 1)
     data[inds] = 1
+    profile.update(dtype=rasterio.float64)
     with rasterio.open('soil%s.tiff' % test[-12:-4], 'w', **profile) as f:
         f.write(data)
     del data
