@@ -73,5 +73,6 @@ if __name__ == "__main__":
     a_args = range(0, 35)
     with rasterio.open('./data/' + band12[0]) as f:
         profile = f.profile
+    profile.update(dtype=rasterio.float64)
     with Pool() as pool:
         pool.starmap(compute, zip(a_args, band12))
