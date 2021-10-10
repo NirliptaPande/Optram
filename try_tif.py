@@ -57,9 +57,12 @@ def compute(dummy, test):
 
     inds = np.where(data > 1)
     data[inds] = 1
-    profile.update(dtype=rasterio.float64)
+    profile = {}
+    with rasterio.open('./data/' + test) as f:
+        profile = f.profile
+    profile.update(dtype=rasterio.float64, compress='lzw', count=1 )
     with rasterio.open('soil%s.tiff' % test[-12:-4], 'w', **profile) as f:
-        f.write(data)
+        f.write(data.astype(rasterio.float64), 1)
     del data
 
 
@@ -69,10 +72,6 @@ if __name__ == "__main__":
     files = sorted(files)
     band12 = [file for file in files if re.match(swir12, file)]
     # temp_file = np.empty((10980, 10980))
-    profile = {}
     a_args = range(0, 35)
-    with rasterio.open('./data/' + band12[0]) as f:
-        profile = f.profile
-    profile.update(dtype=rasterio.float64)
     with Pool() as pool:
         pool.starmap(compute, zip(a_args, band12))
